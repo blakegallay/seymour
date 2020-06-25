@@ -8,7 +8,7 @@ function findTargetText(element) {
         // Otherwise see if it is a text element and use regex to find word.
     } else if (element.nodeType === Text.TEXT_NODE) {
         // This is where we highlight the word.  d
-        if (element.textContent === /WORD/gi) {
+        if (element.textContent === /WORDPHRASE/gi) {
             element.style.backgroundColor = "#FDFF47"
         }
     }

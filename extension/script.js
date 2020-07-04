@@ -1,15 +1,30 @@
-findTargetText(document.body)
+// Unique ID for the className.
+var MOUSE_VISITED_CLASSNAME = "crx_mouse_visited";
 
-/* A recursive function to highlight a given word on a webpage. */
-function findTargetText(element) {
-    // If the element has children nodes, recurse.
-    if (element.hasChildNodes()) {
-        element.hasChildNodes.forEach(findTargetText)
-        // Otherwise see if it is a text element and use regex to find word.
-    } else if (element.nodeType === Text.TEXT_NODE) {
-        // This is where we highlight the word.
-        if (element.textContent === /WORDPHRASE/gi) {
-            element.style.backgroundColor = "#FDFF47"
-        }
+// Previous dom, that we want to track, so we can remove the previous styling.
+var prevDOM = null;
+
+// Mouse listener for any move event on the current document.
+document.addEventListener(
+  "mousemove",
+  function (e) {
+    var srcElement = e.srcElement;
+
+    // See if element is a DIV.
+    if (srcElement.nodeName == "DIV") {
+      // For NPE checking, we check safely. We need to remove the class name
+      // Since we will be styling the new one after.
+      if (prevDOM != null) {
+        prevDOM.classList.remove(MOUSE_VISITED_CLASSNAME);
+      }
+
+      // Add visited class name to the element. So we can style it.
+      srcElement.classList.add(MOUSE_VISITED_CLASSNAME);
+
+      // The current element is now the previous. So we can remove the class
+      // during the next iteration.
+      prevDOM = srcElement;
     }
-}
+  },
+  false
+);
